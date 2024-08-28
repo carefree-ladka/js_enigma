@@ -1,0 +1,48 @@
+---
+title: Prefix Sum
+description: A comprehensive guide to understanding and implementing Prefix Sum.
+---
+
+import CodeBlock from '@theme/CodeBlock';
+
+# Prefix Sum
+
+The **Prefix Sum** is a technique used to simplify the computation of the sum of elements in a subarray. It is particularly useful in problems involving multiple queries about subarray sums, where recalculating the sum from scratch each time would be inefficient.
+
+## How Prefix Sum Works
+
+The idea behind the prefix sum is to preprocess an array so that each element at index `i` in a new array represents the sum of elements from the start of the array up to index `i`.
+
+### Pseudocode
+
+Here’s the pseudocode to compute the prefix sum array:
+
+
+```Javascript
+// Function to compute the prefix sum array
+function computePrefixSum(arr) {
+    const prefixSum = new Array(arr.length).fill(0);
+    prefixSum[0] = arr[0];
+    
+    for (let i = 1; i < arr.length; i++) {
+        prefixSum[i] = prefixSum[i - 1] + arr[i];
+    }
+    
+    return prefixSum;
+}
+
+// Function to calculate the sum of elements between indices l and r
+function subarraySum(prefixSum, l, r) {
+    if (l === 0) return prefixSum[r];
+    return prefixSum[r] - prefixSum[l - 1];
+}
+
+// Example usage:
+const arr = [1, 2, 3, 4, 5];
+const prefixSum = computePrefixSum(arr);
+
+console.log("Prefix Sum Array:", prefixSum); // Output: [1, 3, 6, 10, 15]
+
+const sum = subarraySum(prefixSum, 1, 3);
+console.log("Sum of subarray arr[1..3]:", sum); // Output: 9
+```

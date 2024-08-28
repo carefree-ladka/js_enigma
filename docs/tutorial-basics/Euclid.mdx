@@ -1,0 +1,44 @@
+---
+title: Euclid's Algorithm for Greatest Common Divisor (GCD)
+---
+
+## Euclid's Algorithm for Greatest Common Divisor (GCD)
+
+Euclid's Algorithm is a classic algorithm for finding the greatest common divisor (GCD) of two integers. The GCD is the largest positive integer that divides both numbers without leaving a remainder. Euclid's Algorithm is based on the principle that the GCD of two numbers also divides their difference.
+
+### Concept
+
+Euclid's Algorithm uses the following principle:
+
+- The GCD of two numbers `a` and `b` is the same as the GCD of `b` and `a % b`, where `%` denotes the modulus operation.
+
+This process is repeated until one of the numbers becomes zero. At that point, the non-zero number is the GCD.
+
+### Algorithm Steps
+
+1. **Initial Step**: Given two numbers `a` and `b`.
+2. **Modulo Operation**: Compute the remainder `r` when `a` is divided by `b` (i.e., `r = a % b`).
+3. **Update Numbers**: Replace `a` with `b` and `b` with `r`.
+4. **Repeat**: Continue the process until `b` becomes zero.
+5. **Result**: The GCD is the non-zero number.
+
+### Code Example
+
+**JavaScript Implementation**:
+
+```javascript
+/**
+ * Compute the Greatest Common Divisor (GCD) of two integers using Euclid's Algorithm.
+ * @param {number} a - The first integer.
+ * @param {number} b - The second integer.
+ * @return {number} - The GCD of the two integers.
+ */
+const gcd = (a, b) => {
+  while (b !== 0) {
+    const temp = b;
+    b = a % b;
+    a = temp;
+  }
+  return a;
+};
+```

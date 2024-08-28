@@ -1,0 +1,102 @@
+---
+title: DFS & BFS on Graphs
+description: A comprehensive guide to implementing Depth-First Search (DFS) & BFS (Breadth-First Search) on graphs.
+---
+
+## Depth-First Search (DFS) on Graphs
+
+Depth-First Search (DFS) is a fundamental algorithm for traversing or searching through graph data structures. The algorithm starts at a given node and explores as far as possible along each branch before backtracking.
+
+## How DFS Works
+
+DFS can be implemented using either a recursive approach or an iterative approach with a stack. The key idea is to start from a source node, visit its adjacent nodes, and continue this process until all nodes reachable from the source are visited.
+
+### Pseudocode
+
+Here's the pseudocode for a recursive DFS on an undirected graph:
+
+### Recusrive DFS 
+
+```Javascript
+const dfs = (graph, start, visited = new Set()) => {
+  if (visited.has(start)) return
+
+  console.log(start);
+  visited.add(start)
+
+  for (const neighbour of graph[start]) {
+    if (!visited.has(neighbour)) {
+      dfs(graph, neighbour, visited)
+    }
+  }
+}
+```
+
+### Iterative DFS 
+
+```Javascript
+const dfsIterative = (graph, start, visited = new Set()) => {
+  const stack = [start]
+  visited.add(start)
+
+  while (stack.length) {
+    const current = stack.pop()
+    console.log(current);
+    for (const neighbour of graph[current]) {
+      if (!visited.has(neighbour)) {
+        stack.push(neighbour)
+        visited.add(neighbour)
+      }
+    }
+
+  }
+}
+```
+
+# Breadth-First Search (BFS) on Graphs
+
+Breadth-First Search (BFS) is an algorithm used for traversing or searching through graph or tree data structures. The algorithm starts at a given node and explores all of its neighbors at the present depth before moving on to nodes at the next depth level.
+
+## How BFS Works
+
+BFS is typically implemented using a queue data structure. It starts from a source node and explores all of its neighbors first before moving on to the next layer of nodes. This ensures that nodes are visited in the order of their distance from the source node.
+
+### Pseudocode
+
+Here’s the pseudocode for BFS on an undirected graph:
+
+### BFS 
+
+```Javascript
+const bfs = (graph, start, visited = new Set()) => {
+  const queue = [start]
+  visited.add(start)
+
+  while (queue.length) {
+    const current = queue.shift()
+    console.log(current);
+    for (const neighbour of graph[current]) {
+      if (!visited.has(neighbour)) {
+        queue.push(neighbour)
+        visited.add(neighbour)
+      }
+    }
+
+  }
+}
+```
+
+```Javascript
+const graph = {
+  1: [2, 3],
+  2: [1, 4],
+  3: [1, 5],
+  4: [2, 6],
+  5: [3],
+  6: [4]
+};
+
+dfs(graph, 1)
+dfsIterative(graph,1)
+bfs(graph, 1)
+```

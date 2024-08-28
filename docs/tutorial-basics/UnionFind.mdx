@@ -1,0 +1,73 @@
+---
+title: Union-Find (Disjoint Set Union) Tutorial
+description: A comprehensive guide to Union-Find data structure with code examples in JavaScript.
+---
+
+# Union-Find (Disjoint Set Union) Tutorial
+
+## Introduction
+
+The Union-Find data structure, also known as Disjoint Set Union (DSU), is a data structure that keeps track of a partition of a set into disjoint (non-overlapping) subsets. It supports two primary operations:
+
+1. **Union**: Merge two subsets into a single subset.
+2. **Find**: Determine which subset a particular element is in.
+
+Union-Find is particularly useful in scenarios involving network connectivity, Kruskal's algorithm for finding the Minimum Spanning Tree, and various other graph-related problems.
+
+## Key Operations
+
+1. **Find**: This operation determines the representative or root of the set that contains the given element. Path compression is often used to speed up future queries.
+
+2. **Union**: This operation merges two subsets into a single subset. Union by rank (or size) is commonly used to keep the tree flat and efficient.
+
+## Implementation
+
+Here’s a basic implementation of the Union-Find data structure in JavaScript:
+
+```javascript
+class UnionFind {
+  constructor(size) {
+    this.parent = Array.from({ length: size }, (_, i) => i);
+    this.rank = Array(size).fill(0);
+  }
+
+  // Find the root of the set containing element x with path compression
+  find(x) {
+    if (this.parent[x] !== x) {
+      this.parent[x] = this.find(this.parent[x]); // Path compression
+    }
+    return this.parent[x];
+  }
+
+  // Union the sets containing elements x and y with union by rank
+  union(x, y) {
+    const rootX = this.find(x);
+    const rootY = this.find(y);
+
+    if (rootX !== rootY) {
+      // Union by rank
+      if (this.rank[rootX] > this.rank[rootY]) {
+        this.parent[rootY] = rootX;
+      } else if (this.rank[rootX] < this.rank[rootY]) {
+        this.parent[rootX] = rootY;
+      } else {
+        this.parent[rootY] = rootX;
+        this.rank[rootX] += 1;
+      }
+    }
+  }
+}
+
+// Example Usage
+const uf = new UnionFind(10);
+
+// Union operations
+uf.union(1, 2);
+uf.union(2, 3);
+uf.union(4, 5);
+
+// Find operations
+console.log(uf.find(1)); // Output: 1 (root of the set containing 1)
+console.log(uf.find(3)); // Output: 1 (root of the set containing 3)
+console.log(uf.find(5)); // Output: 5 (root of the set containing 5)
+```

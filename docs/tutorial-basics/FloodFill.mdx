@@ -1,0 +1,120 @@
+---
+title: Flood Fill Algorithm
+---
+
+## Flood Fill Algorithm
+
+The Flood Fill Algorithm is used to determine the area connected to a given node in a multi-dimensional array or grid. It is commonly used in computer graphics for tasks such as filling bounded areas with a color, and in image processing to identify regions within an image. The algorithm can be implemented using either Depth-First Search (DFS) or Breadth-First Search (BFS).
+
+### Overview
+
+**Flood Fill** works by starting from a given pixel or node and spreading out to adjacent nodes with the same value until the boundary or a different value is encountered.
+
+### Algorithm Steps
+
+1. **Initialization**: Start with the initial pixel or node.
+2. **Traversal**:
+   - **DFS**: Use a stack to explore all connected pixels or nodes.
+   - **BFS**: Use a queue to explore all connected pixels or nodes.
+3. **Update**: Change the value of the pixel or node being processed.
+4. **Continue**: Process all connected pixels or nodes until the boundary is reached.
+
+### Example Implementation
+
+#### Using Depth-First Search (DFS)
+
+**Code Example**:
+
+```javascript
+/**
+ * Perform a flood fill operation using Depth-First Search (DFS).
+ * @param {number[][]} grid - The 2D grid representing the image.
+ * @param {number} sr - The starting row index.
+ * @param {number} sc - The starting column index.
+ * @param {number} newColor - The new color to fill.
+ * @return {number[][]} - The updated grid after flood fill.
+ */
+const floodFillDFS = (grid, sr, sc, newColor) => {
+  const oldColor = grid[sr][sc];
+  if (oldColor === newColor) return grid;
+
+  const dfs = (r, c) => {
+    if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length || grid[r][c] !== oldColor) {
+      return;
+    }
+    grid[r][c] = newColor;
+    dfs(r + 1, c);
+    dfs(r - 1, c);
+    dfs(r, c + 1);
+    dfs(r, c - 1);
+  };
+
+  dfs(sr, sc);
+  return grid;
+};
+
+// Example usage:
+const image = [
+  [1, 1, 1],
+  [1, 1, 0],
+  [1, 0, 1]
+];
+const sr = 1;
+const sc = 1;
+const newColor = 2;
+
+console.log(floodFillDFS(image, sr, sc, newColor));
+// Output: [[2, 2, 2], [2, 2, 0], [2, 0, 1]]
+```
+
+### Using BFS
+
+```JavaScript
+/**
+ * Perform a flood fill operation using Breadth-First Search (BFS).
+ * @param {number[][]} grid - The 2D grid representing the image.
+ * @param {number} sr - The starting row index.
+ * @param {number} sc - The starting column index.
+ * @param {number} newColor - The new color to fill.
+ * @return {number[][]} - The updated grid after flood fill.
+ */
+const floodFillBFS = (grid, sr, sc, newColor) => {
+  const oldColor = grid[sr][sc];
+  if (oldColor === newColor) return grid;
+
+  const queue = [[sr, sc]];
+  grid[sr][sc] = newColor;
+
+  const directions = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+
+  while (queue.length > 0) {
+    const [r, c] = queue.shift();
+
+    for (const [dr, dc] of directions) {
+      const nr = r + dr;
+      const nc = c + dc;
+
+      if (nr >= 0 && nr < grid.length && nc >= 0 && nc < grid[0].length && grid[nr][nc] === oldColor) {
+        grid[nr][nc] = newColor;
+        queue.push([nr, nc]);
+      }
+    }
+  }
+
+  return grid;
+};
+
+// Example usage:
+const image = [
+  [1, 1, 1],
+  [1, 1, 0],
+  [1, 0, 1]
+];
+const sr = 1;
+const sc = 1;
+const newColor = 2;
+
+console.log(floodFillBFS(image, sr, sc, newColor));
+// Output: [[2, 2, 2], [2, 2, 0], [2, 0, 1]]
+
+```

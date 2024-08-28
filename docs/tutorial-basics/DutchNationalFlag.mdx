@@ -1,0 +1,64 @@
+---
+title: Dutch National Flag Algorithm
+---
+
+## Dutch National Flag Algorithm
+
+The Dutch National Flag Algorithm is a classic algorithm designed by Edsger W. Dijkstra. It is used to sort an array of elements into three distinct categories. This algorithm is particularly useful in problems involving three different groups of items, such as sorting colors or categorizing elements.
+
+### Problem Statement
+
+Given an array containing three different values, the task is to sort the array such that all occurrences of the first value come before the occurrences of the second value, which in turn come before the occurrences of the third value. This can be visualized as sorting an array of `0`s, `1`s, and `2`s.
+
+### Algorithm Overview
+
+The Dutch National Flag Algorithm operates in linear time, O(n), and uses constant space, O(1). It works by maintaining three pointers to partition the array into three segments:
+
+1. **Low**: The boundary for the first segment (values equal to the first value).
+2. **Mid**: The current element being considered.
+3. **High**: The boundary for the third segment (values equal to the third value).
+
+### Steps
+
+1. **Initialize Pointers**: Set `low` to the start of the array, `mid` to the start, and `high` to the end of the array.
+2. **Process Elements**:
+   - If `arr[mid]` is equal to the first value, swap `arr[low]` and `arr[mid]`, and increment both `low` and `mid`.
+   - If `arr[mid]` is equal to the third value, swap `arr[mid]` and `arr[high]`, and decrement `high`. Do not increment `mid` in this case as the swapped value needs to be processed.
+   - If `arr[mid]` is equal to the second value, simply move `mid` forward.
+
+### Code Implementation
+
+Here is a JavaScript implementation of the Dutch National Flag Algorithm:
+
+```javascript
+/**
+ * Dutch National Flag Algorithm to sort an array containing 0s, 1s, and 2s.
+ * @param {number[]} arr - The array to be sorted.
+ */
+const dutchNationalFlag = (arr) => {
+  let low = 0;    // Pointer for the first segment
+  let mid = 0;    // Pointer for the current element
+  let high = arr.length - 1; // Pointer for the third segment
+
+  while (mid <= high) {
+    if (arr[mid] === 0) {
+      // Swap with low and increment both low and mid
+      [arr[low], arr[mid]] = [arr[mid], arr[low]];
+      low++;
+      mid++;
+    } else if (arr[mid] === 2) {
+      // Swap with high and decrement high
+      [arr[mid], arr[high]] = [arr[high], arr[mid]];
+      high--;
+    } else {
+      // If it's 1, just move mid forward
+      mid++;
+    }
+  }
+}
+
+const arr = [2, 0, 1, 2, 1, 0, 0, 1, 2];
+dutchNationalFlag(arr);
+console.log(arr); // Output: [0, 0, 0, 1, 1, 1, 2, 2, 2]
+
+```

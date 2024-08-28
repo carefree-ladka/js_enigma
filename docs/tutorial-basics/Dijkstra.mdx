@@ -1,0 +1,81 @@
+---
+title: Dijkstra's Algorithm
+---
+
+## Dijkstra's Algorithm
+
+Dijkstra's Algorithm is a classic algorithm used for finding the shortest path between nodes in a graph. It works well with graphs where all edge weights are non-negative. The algorithm efficiently finds the shortest path from a source node to all other nodes in the graph.
+
+### Algorithm Overview
+
+1. **Initialization**:
+   - Set the distance to the source node to `0` and all other nodes to infinity.
+   - Use a priority queue (min-heap) to store nodes with their distances.
+
+2. **Process Nodes**:
+   - Extract the node with the minimum distance from the priority queue.
+   - Update the distances to its neighboring nodes.
+   - If a shorter path is found, update the distance and add the neighbor to the priority queue.
+
+3. **Termination**:
+   - The algorithm terminates when all nodes have been processed, or the priority queue is empty.
+
+### Steps of the Algorithm
+
+1. **Initialize Distances**:
+```Javascript
+function dijkstra(graph, start) {
+  const distances = {};
+  const prev = {};
+  const pq = new MinHeap();
+
+  // Initialize distances and priority queue
+  for (const node in graph) {
+    distances[node] = Infinity;
+    prev[node] = null;
+  }
+  distances[start] = 0;
+  pq.enqueue(start, 0);
+
+  while (pq.heap.length > 0) {
+    const { node: u } = pq.dequeue();
+
+    for (const neighbor in graph[u]) {
+      const alt = distances[u] + graph[u][neighbor];
+      if (alt < distances[neighbor]) {
+        distances[neighbor] = alt;
+        prev[neighbor] = u;
+        pq.enqueue(neighbor, alt);
+      }
+    }
+  }
+
+  return { distances, prev };
+}
+
+// Example usage:
+const graph = {
+  A: { B: 1, C: 4 },
+  B: { C: 2, D: 5 },
+  C: { D: 1 },
+  D: {}
+};
+
+const { distances, prev } = dijkstra(graph, 'A');
+```
+
+
+# Some common Dijkstra's Problems
+### Graph Problems
+- [Cheapest Flights Within K Stops](https://leetcode.com/problems/cheapest-flights-within-k-stops/)
+- [Bus Routes](https://leetcode.com/problems/bus-routes/)
+- [Design Graph With Shortest Path Calculator](https://leetcode.com/problems/design-graph-with-shortest-path-calculator/)
+
+### Pathfinding and Search Problems
+- [Swim in Rising Water](https://leetcode.com/problems/swim-in-rising-water/)
+- [Shortest Path in Binary Matrix](https://leetcode.com/problems/shortest-path-in-binary-matrix/)
+- [Path With Minimum Effort](https://leetcode.com/problems/path-with-minimum-effort/)
+- [Find the Safest Path in a Grid](https://leetcode.com/problems/find-the-safest-path-in-a-grid/)
+
+### Network Delay
+- [Network Delay Time](https://leetcode.com/problems/network-delay-time/description/)

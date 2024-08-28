@@ -1,0 +1,70 @@
+---
+title: Multi-source BFS Algorithm
+---
+
+## Multi-source BFS Algorithm
+
+Multi-source BFS is an extension of the Breadth-First Search (BFS) algorithm that starts the search from multiple source nodes simultaneously. It is particularly useful in scenarios where multiple starting points need to be considered, such as finding the shortest path from multiple sources or solving problems related to spreading processes.
+
+### Concept
+
+In Multi-source BFS:
+- **Sources**: The algorithm begins with multiple source nodes, all of which are initially added to the queue.
+- **Propagation**: The BFS process propagates outwards from all sources in parallel, updating the shortest path distances for each node.
+- **Objective**: To compute the shortest path distances from any of the source nodes to all other nodes in the graph.
+
+### Algorithm Steps
+
+1. **Initialize**: Start by initializing the distance for each node as infinity. Set the distance for each source node to 0. Use a queue to manage the nodes to be processed.
+2. **Process Nodes**: Dequeue nodes and update their neighbors.
+   - For each neighbor, if the calculated distance is shorter than the current known distance, update it and enqueue the neighbor.
+3. **Continue**: Repeat the process until all nodes are processed.
+
+### Code Example
+
+**JavaScript Implementation**:
+
+```javascript
+const { Queue } = require('collections/queue');
+
+/**
+ * Compute the shortest path distances from multiple source nodes using Multi-source BFS.
+ * @param {number[][]} graph - Adjacency list representation of the graph.
+ * @param {number[]} sources - Array of source nodes.
+ * @return {number[]} - Array of shortest path distances from any of the sources.
+ */
+const multiSourceBFS = (graph, sources) => {
+  const n = graph.length;
+  const distances = Array(n).fill(Infinity);
+  const queue = new Queue();
+
+  // Initialize distances for source nodes
+  sources.forEach(source => {
+    distances[source] = 0;
+    queue.enqueue(source);
+  });
+
+  while (queue.length > 0) {
+    const node = queue.dequeue();
+    
+    for (const neighbor of graph[node]) {
+      if (distances[node] + 1 < distances[neighbor]) {
+        distances[neighbor] = distances[node] + 1;
+        queue.enqueue(neighbor);
+      }
+    }
+  }
+
+  return distances;
+};
+
+const graph = [
+  [1, 2],     // Node 0 connects to Node 1 and Node 2
+  [0, 2, 3],  // Node 1 connects to Node 0, Node 2, and Node 3
+  [0, 1, 3],  // Node 2 connects to Node 0, Node 1, and Node 3
+  [1, 2]      // Node 3 connects to Node 1 and Node 2
+];
+const sources = [0, 3];
+
+console.log(multiSourceBFS(graph, sources)); // Output: [0, 1, 1, 1]
+```

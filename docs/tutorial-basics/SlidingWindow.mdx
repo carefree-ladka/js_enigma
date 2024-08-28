@@ -1,0 +1,103 @@
+---
+title: Sliding Window Technique
+---
+
+## Sliding Window Technique
+
+The Sliding Window technique is a powerful approach used to solve problems involving sequences, substrings, or subarrays efficiently. It optimizes the process of examining or modifying contiguous segments of an array or string by maintaining a window of fixed or variable size that "slides" across the data.
+
+### Problem Statement
+
+The Sliding Window technique is commonly applied to problems where you need to find the maximum, minimum, or other aggregated value of a contiguous segment within an array or string, or where you need to identify specific patterns or conditions.
+
+### Types of Sliding Window Techniques
+
+1. **Fixed-Size Window**: The window has a constant size and moves through the data. Useful for problems like finding the maximum sum of any subarray of size `k`.
+
+2. **Variable-Size Window**: The window size is adjusted dynamically based on certain conditions. Useful for problems like finding the smallest substring containing all characters of a given set.
+
+### Algorithm Overview
+
+1. **Initialization**: Set up pointers or indices to represent the current window.
+2. **Expand Window**: Extend the window by moving the end pointer or index.
+3. **Contract Window**: Shrink the window by moving the start pointer or index when necessary.
+4. **Update Result**: Perform calculations or checks within the window to maintain or update the result.
+
+### Fixed-Size Window Example
+
+Find the maximum sum of any subarray of size `k` in a given array:
+
+```javascript
+/**
+ * Find the maximum sum of any subarray of size k.
+ * @param {number[]} arr - The input array.
+ * @param {number} k - The size of the subarray.
+ * @return {number} - The maximum sum of any subarray of size k.
+ */
+const maxSumSubarray = (arr, k) => {
+  let maxSum = 0;
+  let windowSum = 0;
+
+  // Compute the sum of the first window
+  for (let i = 0; i < k; i++) {
+    windowSum += arr[i];
+  }
+  maxSum = windowSum;
+
+  // Slide the window across the array
+  for (let i = k; i < arr.length; i++) {
+    windowSum += arr[i] - arr[i - k];
+    maxSum = Math.max(maxSum, windowSum);
+  }
+
+  return maxSum;
+}
+```
+
+### Variable-Size Window Example
+
+
+```JavaScript
+/**
+ * Find the maximum sum of any subarray with length between minLen and maxLen.
+ * @param {number[]} arr - The input array.
+ * @param {number} minLen - Minimum length of the subarray.
+ * @param {number} maxLen - Maximum length of the subarray.
+ * @return {number} - The maximum sum of any valid subarray.
+ */
+const maxSumSubarrayVariableSize = (arr, minLen, maxLen) => {
+  let start = 0;
+  let end = 0;
+  let currentSum = 0;
+  let maxSum = -Infinity;
+
+  while (end < arr.length) {
+    // Expand the window by including arr[end]
+    currentSum += arr[end];
+
+    // Ensure the window size is within the specified range
+    if (end - start + 1 > maxLen) {
+      currentSum -= arr[start];
+      start++;
+    }
+
+    // Update maxSum if the current window size is within the range
+    if (end - start + 1 >= minLen) {
+      maxSum = Math.max(maxSum, currentSum);
+    }
+
+    // Move the end pointer to expand the window
+    end++;
+  }
+
+  return maxSum;
+}
+
+// Example usage:
+const arr = [1, 2, 3, 4, 5, 6, 7];
+const minLen = 2;
+const maxLen = 4;
+
+console.log(maxSumSubarrayVariableSize(arr, minLen, maxLen)); // Output: 22
+
+```

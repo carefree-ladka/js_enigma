@@ -1,0 +1,153 @@
+---
+title: Dynamic Programming
+---
+Dynamic Programming (DP) is a technique used for solving complex problems by breaking them down into simpler overlapping subproblems. It involves storing the results of these subproblems to avoid redundant computations. There are two main approaches to implementing DP: **Top-Down** and **Bottom-Up**.
+
+## Top-Down Approach (Memoization)
+
+In the **Top-Down** approach, also known as **Memoization**, the problem is solved by recursively breaking it down into subproblems. Each subproblem's result is stored in a data structure (like an array or hash map) to avoid redundant calculations.
+
+### Steps
+
+1. **Recursive Definition**:
+   - Define the problem recursively in terms of smaller subproblems.
+
+2. **Memoization**:
+   - Use a data structure (memoization table) to store the results of subproblems.
+
+3. **Recursion**:
+   - Solve the problem by making recursive calls and using the memoized results.
+
+### Example: Fibonacci Numbers
+
+```javascript
+function fibonacci(n, memo = {}) {
+  if (n in memo) return memo[n];
+  if (n <= 1) return n;
+  memo[n] = fibonacci(n - 1, memo) + fibonacci(n - 2, memo);
+  return memo[n];
+}
+
+// Example usage
+console.log(fibonacci(10)); // Output: 55
+```
+
+## Bottom-Up Approach (Tabulation)
+In the **Bottom-Up approach**, also known as Tabulation, the problem is solved by iteratively building up solutions to subproblems starting from the smallest subproblems. Results are stored in a table to build up the final solution.
+
+## Steps
+## Initialization
+
+1. Initialize a table to store solutions to subproblems.
+Iteration:
+
+2. Solve smaller subproblems iteratively and store their results in the table.
+Build Solution:
+
+3. Use the results of smaller subproblems to build up the solution to the larger problem.
+Example: Fibonacci Numbers
+
+
+```JavaScript
+function fibonacci(n) {
+  if (n <= 1) return n;
+  const dp = new Array(n + 1);
+  dp[0] = 0;
+  dp[1] = 1;
+
+  for (let i = 2; i <= n; i++) {
+    dp[i] = dp[i - 1] + dp[i - 2];
+  }
+
+  return dp[n];
+}
+
+// Example usage
+console.log(fibonacci(10)); // Output: 55
+```
+---
+# Dynamic Programming Problems
+---
+
+
+## Fibonacci Style
+- [Climbing Stairs](https://leetcode.com/problems/climbingstairs/)
+- [Fibonacci Number](https://leetcode.com/problems/fibonaccinumber/)
+- [Nth Tribonacci Number](https://leetcode.com/problems/nthtribonaccinumber/)
+- [Min Cost Climbing Stairs](https://leetcode.com/problems/mincostclimbingstairs/)
+- [House Robber](https://leetcode.com/problems/houserobber/)
+- [Delete and Earn](https://leetcode.com/problems/deleteandearn/)
+- [Geek Jump (GeeksforGeeks)](https://www.geeksforgeeks.org/problems/geekjump/0)
+
+## Matrix
+- [Unique Paths](https://leetcode.com/problems/uniquepaths/)
+- [Minimum Path Sum](https://leetcode.com/problems/minimumpathsum/)
+- [Unique Paths II](https://leetcode.com/problems/uniquepathsii/)
+- [Triangle](https://leetcode.com/problems/triangle/)
+- [Minimum Falling Path Sum](https://leetcode.com/problems/minimumfallingpathsum/)
+- [Maximal Square](https://leetcode.com/problems/maximalsquare/)
+
+## On Strings
+- [Longest Palindromic Substring](https://leetcode.com/problems/longestpalindromicsubstring/)
+- [Word Break](https://leetcode.com/problems/wordbreak/description)
+- [Longest Palindromic Subsequence](https://leetcode.com/problems/longestpalindromicsubsequence/)
+- [Edit Distance](https://leetcode.com/problems/editdistance/description)
+- [Minimum ASCII Delete Sum for Two Strings](https://leetcode.com/problems/minimumasciideletesumfortwostrings/)
+- [Distinct Subsequences](https://leetcode.com/problems/distinctsubsequences/)
+
+## Longest Increasing Subsequence
+- [Longest Increasing Subsequence](https://leetcode.com/problems/longestincreasingsubsequence/)
+- [Number of Longest Increasing Subsequence](https://leetcode.com/problems/numberoflongestincreasingsubsequence/)
+- [Maximum Length of Pair Chain](https://leetcode.com/problems/maximumlengthofpairchain/)
+- [Longest Arithmetic Subsequence of Given Difference](https://leetcode.com/problems/longestarithmeticsubsequenceofgivendifference/)
+- [Longest Arithmetic Subsequence](https://leetcode.com/problems/longestarithmeticsubsequence/)
+- [Russian Doll Envelopes](https://leetcode.com/problems/russiandollenvelopes/)
+- [Find the Longest Valid Obstacle Course at Each Position](https://leetcode.com/problems/findthelongestvalidobstaclecourseateachposition/)
+
+## Longest Common Subsequence
+- [Longest Common Subsequence](https://leetcode.com/problems/longestcommonsubsequence/)
+- [Uncrossed Lines](https://leetcode.com/problems/uncrossedlines/)
+- [Minimum Insertion Steps to Make a String Palindrome](https://leetcode.com/problems/minimuminsertionstepstomakeastringpalindrome/)
+
+## Best Time to Buy & Sell Stock / State Machine
+- [Best Time to Buy and Sell Stock with Cooldown](https://leetcode.com/problems/besttimetobuyandsellstockwithcooldown/description)
+- [Best Time to Buy and Sell Stock](https://leetcode.com/problems/besttimetobuyandsellstock/)
+- [Maximum Subarray](https://leetcode.com/problems/maximumsubarray/)
+- [Best Time to Buy and Sell Stock with Transaction Fee](https://leetcode.com/problems/besttimetobuyandsellstockwithtransactionfee/)
+- [Best Time to Buy and Sell Stock III](https://leetcode.com/problems/besttimetobuyandsellstockiii/)
+- [Best Time to Buy and Sell Stock IV](https://leetcode.com/problems/besttimetobuyandsellstockiv/)
+
+## On Trees
+- [Unique Binary Search Trees](https://leetcode.com/problems/uniquebinarysearchtrees/description)
+- [Unique Binary Search Trees II](https://leetcode.com/problems/uniquebinarysearchtreesii/)
+- [House Robber III](https://leetcode.com/problems/houserobberiii/)
+- [Binary Tree Maximum Path Sum](https://leetcode.com/problems/binarytreemaximumpathsum/)
+
+## Knapsack
+- [Perfect Squares](https://leetcode.com/problems/perfectsquares/)
+- [Coin Change II](https://leetcode.com/problems/coinchangeii/)
+- [Combination Sum IV](https://leetcode.com/problems/combinationsumiv/)
+- [Ones and Zeroes](https://leetcode.com/problems/onesandzeroes/)
+
+## General 1D
+- [Solving Questions With Brainpower](https://leetcode.com/problems/solvingquestionswithbrainpower/)
+- [Coin Change](https://leetcode.com/problems/coinchange/description)
+- [Count Ways to Build Good Strings](https://leetcode.com/problems/countwaystobuildgoodstrings/)
+- [Minimum Cost For Tickets](https://leetcode.com/problems/minimumcostfortickets/description)
+- [Domino and Tromino Tiling](https://leetcode.com/problems/dominoandtrominotiling/)
+- [Decode Ways](https://leetcode.com/problems/decodeways/description)
+
+## 2D Grid DP Problems
+- [Unique Paths](https://leetcode.com/problems/uniquepaths/)
+- [Minimum Path Sum](https://leetcode.com/problems/minimumpathsum/)
+- [Unique Paths II](https://leetcode.com/problems/uniquepathsii/)
+- [Triangle](https://leetcode.com/problems/triangle/)
+- [Minimum Falling Path Sum](https://leetcode.com/problems/minimumfallingpathsum/)
+- [Maximal Square](https://leetcode.com/problems/maximalsquare/)
+
+## 3D Grid DP Problems
+- [Out of Boundary Paths](https://leetcode.com/problems/out-of-boundary-paths/)
+- [Shortest Path in a Grid with Obstacles Elimination](https://leetcode.com/problems/shortest-path-in-a-grid-with-obstacles-elimination/)
+- [Minimum Path Cost in a Grid](https://leetcode.com/problems/minimum-path-cost-in-a-grid/)
+- [Cherry Pickup II](https://leetcode.com/problems/cherry-pickup-ii/)
+- [3D DP Problem on Boxes (Remove Boxes)](https://leetcode.com/problems/remove-boxes/)

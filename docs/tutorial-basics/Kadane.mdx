@@ -1,0 +1,52 @@
+---
+title: Kadane's Algorithm Tutorial
+description: A comprehensive guide to Kadane's Algorithm with code examples in JavaScript.
+---
+
+# Kadane's Algorithm Tutorial
+
+## Introduction
+
+Kadane's Algorithm is an efficient method for finding the maximum sum subarray in a given array of integers. It works in linear time, making it suitable for large arrays. The algorithm is often used in various applications, such as financial analysis and computer science problems.
+
+## Problem Statement
+
+Given an array of integers, the task is to find the contiguous subarray with the maximum sum and return this sum.
+
+## Key Concepts
+
+- **Subarray**: A contiguous part of an array.
+- **Maximum Sum**: The highest possible sum of a subarray.
+
+## Algorithm Overview
+
+Kadane's Algorithm works by iterating through the array and maintaining two variables:
+1. **Current Sum (`currSum`)**: The maximum sum of the subarray that ends at the current position.
+2. **Global Maximum (`maxSum`)**: The maximum sum encountered so far across all subarrays.
+
+For each element in the array, the algorithm updates `currSum` and `maxSum` as follows:
+- `currSum` is updated to be the maximum of the current element alone or the current element plus the previous `currSum`.
+- `maxSum` is updated to be the maximum of itself and `currSum`.
+
+## Implementation
+
+Here’s a JavaScript implementation of Kadane's Algorithm:
+
+```javascript
+const kadane = (nums) => {
+  if (nums.length === 0) return 0;
+
+  let currSum = nums[0];
+  let maxSum = nums[0];
+
+  for (let i = 1; i < nums.length; i++) {
+    currSum = Math.max(nums[i], currSum + nums[i]);
+    maxSum = Math.max(maxSum, currSum);
+  }
+
+  return maxSum;
+}
+
+// Example Usage
+const nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4];
+console.log(kadane(nums)); // Output: 6 (4 + (-1) + 2 + 1)

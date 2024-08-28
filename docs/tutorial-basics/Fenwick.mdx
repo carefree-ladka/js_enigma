@@ -1,0 +1,60 @@
+---
+title: Fenwick Tree Tutorial
+description: A comprehensive guide to Fenwick Trees with code examples in JavaScript.
+---
+
+# Fenwick Tree Tutorial
+
+## Introduction
+
+A Fenwick Tree, also known as a Binary Indexed Tree (BIT), is a data structure that provides efficient methods for querying and updating prefix sums in an array. It supports operations like point updates and prefix sum queries in O(log n) time.
+
+## Key Operations
+
+1. **Update**: Increment the value at a specific index.
+2. **Query**: Get the sum of values from the start of the array to a specific index.
+
+## Fenwick Tree Structure
+
+The Fenwick Tree is typically represented as an array where each position maintains a cumulative sum of elements.
+
+## Implementation
+
+Here’s a basic implementation of a Fenwick Tree in JavaScript:
+
+```javascript
+class FenwickTree {
+  constructor(size) {
+    this.size = size;
+    this.tree = new Array(size + 1).fill(0);
+  }
+
+  // Increment the value at index i by delta
+  update(index, delta) {
+    while (index <= this.size) {
+      this.tree[index] += delta;
+      index += index & -index; // Move to the next index
+    }
+  }
+
+  // Get the prefix sum from the start to index i
+  query(index) {
+    let sum = 0;
+    while (index > 0) {
+      sum += this.tree[index];
+      index -= index & -index; // Move to the parent index
+    }
+    return sum;
+  }
+}
+
+// Example Usage
+const fenwick = new FenwickTree(10);
+
+// Incrementing values
+fenwick.update(1, 5);
+fenwick.update(3, 3);
+fenwick.update(5, 7);
+
+// Querying prefix sums
+console.log(fenwick.query(5)); // Output: 15 (5 + 3 + 7)

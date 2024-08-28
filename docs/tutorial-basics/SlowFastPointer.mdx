@@ -1,0 +1,96 @@
+# Fast and Slow Pointers Technique
+
+The **Fast and Slow Pointers** technique, also known as the **Tortoise and Hare** algorithm, is a powerful method for solving problems involving linked lists and cyclic structures. It uses two pointers that move at different speeds to detect cycles, find the middle of a list, and solve other related problems efficiently.
+
+## Overview
+
+The Fast and Slow pointers technique involves using two pointers:
+
+1. **Slow Pointer**: Moves one step at a time.
+2. **Fast Pointer**: Moves two steps at a time.
+
+By moving the pointers at different speeds, you can often detect patterns or solve problems more efficiently.
+
+## Common Applications
+
+1. **Cycle Detection**:
+   - Detect if a linked list contains a cycle.
+   - Find the starting node of the cycle if it exists.
+
+2. **Finding the Middle of a Linked List**:
+   - Find the middle node of a linked list in a single pass.
+
+3. **Finding the Starting Node of the Cycle**:
+   - Given a cycle in a linked list, find the starting node of the cycle.
+
+## JavaScript Implementations
+
+### 1. Cycle Detection in a Linked List
+
+```javascript
+class ListNode {
+  constructor(value = 0, next = null) {
+    this.value = value;
+    this.next = next;
+  }
+}
+
+function hasCycle(head) {
+  let slow = head;
+  let fast = head;
+
+  while (fast !== null && fast.next !== null) {
+    slow = slow.next;
+    fast = fast.next.next;
+
+    if (slow === fast) {
+      return true; // Cycle detected
+    }
+  }
+
+  return false; // No cycle
+}
+```
+### Finding the Middle of a Linked List
+
+```JavaScript
+function findMiddle(head) {
+  let slow = head;
+  let fast = head;
+
+  while (fast !== null && fast.next !== null) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+
+  return slow; // Middle node
+}
+```
+
+### Finding the Starting Node of the Cycle
+
+
+```JavaScript
+function detectCycle(head) {
+  let slow = head;
+  let fast = head;
+
+  // Phase 1: Detect if a cycle exists
+  while (fast !== null && fast.next !== null) {
+    slow = slow.next;
+    fast = fast.next.next;
+
+    if (slow === fast) {
+      // Phase 2: Find the starting node of the cycle
+      let start = head;
+      while (start !== slow) {
+        start = start.next;
+        slow = slow.next;
+      }
+      return start; // Starting node of the cycle
+    }
+  }
+
+  return null; // No cycle
+}
+```

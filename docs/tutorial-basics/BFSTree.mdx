@@ -1,0 +1,131 @@
+---
+title: Breadth-First Search (BFS) for Trees
+---
+
+## Breadth-First Search (BFS) for Trees
+
+Breadth-First Search (BFS) is an algorithm used to traverse or search through tree or graph structures. It explores all nodes at the present depth level before moving on to nodes at the next depth level. BFS is particularly useful for finding the shortest path in unweighted graphs or trees.
+
+### Overview
+
+In BFS, we start from the root (or any arbitrary node in a graph) and explore all of its neighbors at the present depth level before moving on to nodes at the next depth level. This traversal is typically implemented using a queue data structure to keep track of the nodes to be explored.
+
+### Algorithm Steps
+
+1. **Initialize**: Create a queue and enqueue the root node. Also, mark the root node as visited.
+2. **Explore**: Dequeue a node from the queue and process it.
+3. **Enqueue Neighbors**: Enqueue all unvisited child nodes (or neighbors) of the dequeued node.
+4. **Repeat**: Continue the process until the queue is empty.
+
+### Example Implementation
+
+**Code Example**:
+
+```javascript
+class TreeNode {
+  constructor(val) {
+    this.val = val;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+/**
+ * Perform BFS traversal on a tree.
+ * @param {TreeNode} root - The root of the tree.
+ * @return {number[]} - The values of the nodes in BFS order.
+ */
+const bfsTraversal = (root) => {
+  if (!root) return [];
+  
+  const result = [];
+  const queue = [root];
+  
+  while (queue.length > 0) {
+    const node = queue.shift(); // Dequeue the front node
+    result.push(node.val); // Process the node
+    
+    // Enqueue the child nodes
+    if (node.left) queue.push(node.left);
+    if (node.right) queue.push(node.right);
+  }
+  
+  return result;
+};
+
+// Example usage:
+const root = new TreeNode(1);
+root.left = new TreeNode(2);
+root.right = new TreeNode(3);
+root.left.left = new TreeNode(4);
+root.left.right = new TreeNode(5);
+root.right.left = new TreeNode(6);
+root.right.right = new TreeNode(7);
+
+/* 
+                     1
+                    / \
+                   2   3
+                  / \ / \
+                 4  5 6  7
+*/
+
+console.log(bfsTraversal(root)); // Output: [1, 2, 3, 4, 5, 6, 7]
+```
+
+# BFS Level Order Traversal
+
+**Breadth-First Search (BFS)** is a graph traversal algorithm that explores nodes level by level. When applied to a binary tree, it processes all nodes at the present depth level before moving on to the nodes at the next depth level.
+
+## Problem Statement
+
+Given a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).
+
+## Approach
+
+1. **Queue Data Structure:** Use a queue to keep track of nodes at the current level.
+2. **Level-by-Level Traversal:** Start from the root, and for each node, enqueue its children. Dequeue a node to visit it and move to the next level.
+
+### Example
+
+```JavaScript
+class TreeNode {
+  constructor(val, left = null, right = null) {
+    this.val = val;
+    this.left = left;
+    this.right = right;
+  }
+}
+
+function levelOrder(root) {
+  const result = [];
+  if (!root) return result;
+
+  const queue = [root];
+
+  while (queue.length > 0) {
+    const levelSize = queue.length;
+    const currentLevel = [];
+
+    for (let i = 0; i < levelSize; i++) {
+      const node = queue.shift();
+      currentLevel.push(node.val);
+
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    }
+
+    result.push(currentLevel);
+  }
+
+  return result;
+}
+
+// Example usage
+const root = new TreeNode(3);
+root.left = new TreeNode(9);
+root.right = new TreeNode(20, new TreeNode(15), new TreeNode(7));
+
+const result = levelOrder(root);
+console.log(result); // Output: [[3], [9, 20], [15, 7]]
+```

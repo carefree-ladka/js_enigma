@@ -1,0 +1,62 @@
+---
+title: Reservoir Sampling
+---
+**Reservoir Sampling** is an algorithm used for randomly selecting a fixed number of items from a stream or a large dataset when the total number of items is not known in advance. It ensures that each item in the stream has an equal probability of being included in the sample.
+
+## Overview
+
+The Reservoir Sampling algorithm works by maintaining a "reservoir" of a fixed size and randomly replacing items in the reservoir as new items are encountered in the stream. The key idea is to ensure that each item in the stream has an equal chance of being included in the final sample.
+
+## Algorithm Steps
+
+1. **Initialization**:
+   - Initialize a reservoir of size k where k is the number of items to be sampled.
+
+2. **Fill the Reservoir**:
+   - For the first k items in the stream, simply add them to the reservoir.
+
+3. **Replace Items**:
+   - For each subsequent item (i.e., for the (k+1)th item and beyond), generate a random number between 0 and the current index (inclusive).
+   - If the random number is less than k, replace a randomly chosen item in the reservoir with the new item.
+
+4. **Output**:
+   - Continue until the end of the stream is reached. The reservoir will contain the sampled items.
+
+## Time Complexity
+
+The time complexity of Reservoir Sampling is O(1) for each item in the stream. This is because each item is processed in constant time, and the algorithm maintains a fixed-size reservoir.
+
+## JavaScript Implementation
+
+Here is a JavaScript implementation of Reservoir Sampling:
+
+```javascript
+function reservoirSampling(stream, k) {
+  const reservoir = [];
+  
+  // Fill the reservoir with the first k items from the stream
+  for (let i = 0; i < k; i++) {
+    reservoir.push(stream[i]);
+  }
+  
+  // Process the rest of the items
+  for (let i = k; i < stream.length; i++) {
+    const j = Math.floor(Math.random() * (i + 1));
+    if (j < k) {
+      reservoir[j] = stream[i];
+    }
+  }
+  
+  return reservoir;
+}
+
+// Example usage
+const stream = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const k = 3;
+console.log(reservoirSampling(stream, k)); // Output: Random sample of 3 items from the stream
+```
+
+### Problems
+
+1. [Random Pick Index](https://leetcode.com/problems/shuffle-an-array)
+2. [Linked List Random Node](https://leetcode.com/problems/linked-list-random-node)

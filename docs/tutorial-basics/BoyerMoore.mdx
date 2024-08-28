@@ -1,0 +1,67 @@
+---
+title: Boyer–Moore Majority Vote Algorithm
+---
+
+## Boyer–Moore Majority Vote Algorithm
+
+The Boyer–Moore Majority Vote Algorithm is an efficient algorithm for finding the majority element in an array. The majority element is the element that appears more than half the time in the array. The algorithm operates in linear time, O(n), and uses constant space, O(1).
+
+### Algorithm Overview
+
+The Boyer–Moore Majority Vote Algorithm consists of two main phases:
+
+1. **Finding a Candidate**: Traverse the array to find a potential candidate that could be the majority element.
+2. **Verifying the Candidate**: Verify if the candidate is indeed the majority element by counting its occurrences.
+
+### Algorithm Steps
+
+1. **Initialization**:
+   - Set a `candidate` variable to `null` and a `count` variable to `0`.
+
+2. **Find the Candidate**:
+   - Iterate through the array. If `count` is `0`, set the `candidate` to the current element.
+   - Adjust `count` based on whether the current element matches the `candidate` or not.
+
+3. **Verify the Candidate**:
+   - Count the occurrences of the `candidate` in the array to ensure it appears more than half the time.
+
+### Example Implementation
+
+**Code Example**:
+
+```javascript
+/**
+ * Find the majority element in an array using the Boyer–Moore Majority Vote Algorithm.
+ * @param {number[]} nums - The input array of numbers.
+ * @return {number} - The majority element if it exists, otherwise null.
+ */
+const majorityElement = (nums) => {
+  let candidate = null;
+  let count = 0;
+
+  // Phase 1: Find the candidate
+  for (const num of nums) {
+    if (count === 0) {
+      candidate = num;
+    }
+    count += (num === candidate) ? 1 : -1;
+  }
+
+  // Phase 2: Verify the candidate
+  count = 0;
+  for (const num of nums) {
+    if (num === candidate) {
+      count++;
+    }
+  }
+
+  return count > nums.length / 2 ? candidate : null;
+};
+
+// Example usage:
+const nums = [3, 2, 3];
+console.log(majorityElement(nums)); // Output: 3
+
+const nums2 = [1, 2, 3, 4, 5];
+console.log(majorityElement(nums2)); // Output: null (no majority element)
+```

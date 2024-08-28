@@ -1,0 +1,122 @@
+---
+title: Quick Select Algorithm
+---
+
+
+## Quick Select Algorithm
+
+The Quick Select algorithm is an efficient selection algorithm to find the k-th smallest element in an unordered list. It's based on the Quick Sort algorithm and has an average time complexity of O(n).
+
+### Basic Version (Extra Space)
+
+The following is a basic implementation of Quick Select in JavaScript. This version uses additional space for partitioning the array into smaller and larger elements:
+
+```Javascript
+function quickSelect(A, k) {
+  // Base case: if the array has only one element, return it
+  if (A.length === 1) return A[0];
+
+  // Choose a pivot uniformly at random
+  const r = Math.floor(Math.random() * A.length);
+  const pivot = A[r];
+
+  // Initialize arrays for smaller and larger elements
+  const A1 = A.filter(x => x < pivot);
+  const A2 = A.filter(x => x > pivot);
+
+  const diff = A.length - A2.length;
+
+  // Determine the position of the k-th smallest element
+  if (k <= A1.length) {
+    // It's in the pile of small elements
+    return quickSelect(A1, k);
+  } else if (k > diff) {
+    // It's in the pile of big elements
+    return quickSelect(A2, k - diff);
+  } else {
+    // It's equal to the pivot
+    return pivot;
+  }
+}
+
+function findKthLargest(nums, k) {
+  return quickSelect(nums, nums.length - k + 1);
+}
+
+function findKthSmallest(nums, k) {
+  return quickSelect(nums, k);
+}
+
+// Example usage:
+const nums = [3, 2, 1, 5, 6, 4];
+const k = 1;
+
+console.log(findKthLargest(nums, k)); // Output: 6
+console.log(findKthSmallest(nums, k)); // Output: 1
+```
+
+
+### Efficient Version (No Extra Space) : Works for number & string
+
+The following is an efficient implementation of Quick Select in JavaScript. This version uses Hoare partition for partitioning the array into smaller and larger elements:
+
+
+```JavaScript
+function partition(arr, lo, hi, compare) {
+    // Choose a random pivot and move it to the start
+    const randomIndex = Math.floor(Math.random() * (hi - lo + 1)) + lo;
+    swap(arr, lo, randomIndex);
+    const pivot = arr[lo];
+
+    let i = lo + 1; // Start just after the pivot
+    let j = hi;
+
+    while (i <= j) {
+        // Find the first element greater than or equal to the pivot
+        while (i <= hi && compare(arr[i], pivot) < 0) i++;
+
+        // Find the first element less than or equal to the pivot
+        while (j >= lo && compare(arr[j], pivot) > 0) j--;
+
+        if (i >= j) break;
+
+        swap(arr, i, j);
+        i++;
+        j--;
+    }
+
+    // Place the pivot in its correct position
+    swap(arr, lo, j);
+    return j; // Return the index of the pivot
+}
+
+const swap = (arr, i, j) => [arr[i], arr[j]] = [arr[j], arr[i]];
+
+function quickSelect(arr, k, compare) {
+    let lo = 0;
+    let hi = arr.length - 1;
+
+    while (lo <= hi) {
+        const j = partition(arr, lo, hi, compare);
+        if (j === k) {
+            return arr[k];
+        } else if (j < k) {
+            lo = j + 1;
+        } else {
+            hi = j - 1;
+        }
+    }
+    return null; // In case k is out of bounds
+}
+
+const compare = (a, b) => BigInt(a) - BigInt(b);
+
+function findKthLargest(arr, k) {
+    return quickSelect(arr, arr.length - k, compare);
+}
+
+function kthSmallest(arr, k) {
+    return quickSelect(arr, k - 1, compare);
+}
+
+```

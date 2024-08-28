@@ -1,0 +1,49 @@
+# Fisher-Yates Shuffle Algorithm
+
+The **Fisher-Yates Shuffle** algorithm is an efficient method for randomly shuffling a finite sequence of items. It ensures that each permutation of the sequence is equally likely.
+
+## Overview
+
+The Fisher-Yates Shuffle algorithm iterates through the sequence from the end to the beginning, swapping each element with a randomly chosen element that comes before it (including itself). This ensures that all permutations of the sequence are equally probable.
+
+## Algorithm Steps
+
+1. **Initialization**:
+   - Start with the last element of the sequence.
+
+2. **Iteration**:
+   - For each element, generate a random index from the current position to the beginning of the sequence.
+   - Swap the current element with the element at the random index.
+
+3. **Termination**:
+   - Continue until you have processed the entire sequence.
+
+## Time Complexity
+
+The time complexity of the Fisher-Yates Shuffle algorithm is O(n), where n is the number of items in the sequence. This is because each element is swapped exactly once.
+
+## JavaScript Implementation
+
+Here is a simple JavaScript implementation of the Fisher-Yates Shuffle algorithm:
+
+```javascript
+function fisherYatesShuffle(array) {
+  let m = array.length;
+  
+  // While there remain elements to shuffle
+  while (m > 1) {
+    // Pick a remaining element
+    const i = Math.floor(Math.random() * m--);
+    
+    // Swap it with the current element
+    [array[m], array[i]] = [array[i], array[m]];
+  }
+  
+  return array;
+}
+
+// Example usage
+const array = [1, 2, 3, 4, 5];
+const shuffledArray = fisherYatesShuffle(array);
+console.log(shuffledArray); // Output: [3, 1, 5, 4, 2] (random order)
+```

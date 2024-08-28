@@ -1,0 +1,55 @@
+---
+title: Quick Sort
+description: A comprehensive guide to understanding and implementing Quick Sort.
+---
+
+import CodeBlock from '@theme/CodeBlock';
+
+# Quick Sort
+
+**Quick Sort** is a widely used and efficient sorting algorithm that follows the divide-and-conquer strategy. It works by selecting a 'pivot' element from the array and partitioning the other elements into two sub-arrays, according to whether they are less than or greater than the pivot. The sub-arrays are then sorted recursively.
+
+## How Quick Sort Works
+
+Quick Sort is a comparison-based sorting algorithm with an average time complexity of `O(n log n)`. Its efficiency depends on the choice of the pivot and partitioning strategy. The basic idea is to sort the array in place, with minimal additional memory usage.
+
+### Algorithm Steps
+
+1. **Choose a Pivot:** Select an element from the array as the pivot. Various strategies can be used to choose the pivot (e.g., first element, last element, random element, median-of-three).
+2. **Partition the Array:** Rearrange the elements in the array so that elements less than the pivot come before it and elements greater than the pivot come after it.
+3. **Recursively Apply Quick Sort:** Recursively apply Quick Sort to the sub-arrays formed by the partition.
+
+### Pseudocode
+
+Here’s the pseudocode for Quick Sort:
+
+```Javascript
+function quickSort(arr, left = 0, right = arr.length - 1) {
+    if (left >= right) return;
+
+    const pivotIndex = partition(arr, left, right);
+    quickSort(arr, left, pivotIndex - 1);
+    quickSort(arr, pivotIndex + 1, right);
+}
+
+function partition(arr, left, right) {
+    const pivot = arr[right];
+    let i = left;
+
+    for (let j = left; j < right; j++) {
+        if (arr[j] < pivot) {
+            [arr[i], arr[j]] = [arr[j], arr[i]];  // Swap elements
+            i++;
+        }
+    }
+
+    [arr[i], arr[right]] = [arr[right], arr[i]];  // Swap pivot into place
+    return i;
+}
+
+// Example usage
+const array = [3, 6, 8, 10, 1, 2, 1];
+quickSort(array);
+console.log(array);  // Output: [1, 1, 2, 3, 6, 8, 10]
+
+```

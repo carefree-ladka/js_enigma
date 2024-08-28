@@ -1,0 +1,86 @@
+---
+title: Trie Data Structure
+---
+
+## Trie Data Structure
+
+A Trie, also known as a prefix tree or digital tree, is a specialized tree used to store associative data structures. It is commonly used for storing strings or sequences where it can efficiently support operations like insertion, deletion, and prefix search.
+
+### Key Concepts
+
+- **Nodes**: Each node represents a character of the stored strings.
+- **Edges**: The edges between nodes represent the transitions from one character to the next.
+- **Root**: The root node represents the starting point of the Trie and does not store any character.
+
+### Operations
+
+1. **Insertion**: Add a new string to the Trie.
+2. **Search**: Check if a string exists in the Trie.
+3. **Prefix Search**: Find all strings that share a common prefix.
+4. **Deletion**: Remove a string from the Trie.
+
+### Code Implementation
+
+Here's a basic implementation of a Trie in JavaScript:
+
+```javascript
+class TrieNode {
+  constructor() {
+    this.children = {};
+    this.isEndOfWord = false;
+  }
+}
+
+class Trie {
+  constructor() {
+    this.root = new TrieNode();
+  }
+
+  // Insert a word into the Trie
+  insert(word) {
+    let node = this.root;
+    for (const char of word) {
+      if (!node.children[char]) {
+        node.children[char] = new TrieNode();
+      }
+      node = node.children[char];
+    }
+    node.isEndOfWord = true;
+  }
+
+  // Search for a word in the Trie
+  search(word) {
+    let node = this.root;
+    for (const char of word) {
+      if (!node.children[char]) {
+        return false;
+      }
+      node = node.children[char];
+    }
+    return node.isEndOfWord;
+  }
+
+  // Search for words with a given prefix
+  startsWith(prefix) {
+    let node = this.root;
+    for (const char of prefix) {
+      if (!node.children[char]) {
+        return false;
+      }
+      node = node.children[char];
+    }
+    return true;
+  }
+}
+
+// Example usage
+const trie = new Trie();
+trie.insert("hello");
+trie.insert("world");
+
+console.log(trie.search("hello")); // Output: true
+console.log(trie.search("hell")); // Output: false
+console.log(trie.startsWith("hell")); // Output: true
+console.log(trie.startsWith("worl")); // Output: true
+
+```

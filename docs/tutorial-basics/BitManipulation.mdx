@@ -1,0 +1,163 @@
+---
+title: Bit Manipulation Basics
+---
+
+## Bit Manipulation Basics
+
+Bit manipulation involves using bitwise operators to perform operations on binary representations of numbers. This technique is useful in various programming scenarios, including optimization, cryptography, and low-level data processing.
+
+### Basic Bitwise Operators
+
+1. **AND (`&`)**:
+   - **Description**: Performs a bitwise AND operation.
+   - **Example**:
+     ```javascript
+     const a = 5;  // 0101 in binary
+     const b = 3;  // 0011 in binary
+     const result = a & b;  // 0001 in binary (1 in decimal)
+     ```
+
+2. **OR (`|`)**:
+   - **Description**: Performs a bitwise OR operation.
+   - **Example**:
+     ```javascript
+     const a = 5;  // 0101 in binary
+     const b = 3;  // 0011 in binary
+     const result = a | b;  // 0111 in binary (7 in decimal)
+     ```
+
+3. **XOR (`^`)**:
+   - **Description**: Performs a bitwise XOR operation.
+   - **Example**:
+     ```javascript
+     const a = 5;  // 0101 in binary
+     const b = 3;  // 0011 in binary
+     const result = a ^ b;  // 0110 in binary (6 in decimal)
+     ```
+
+4. **NOT (`~`)**:
+   - **Description**: Performs a bitwise NOT operation (inverts all bits).
+   - **Example**:
+     ```javascript
+     const a = 5;  // 0101 in binary
+     const result = ~a;  // 1010 in binary (in 32-bit system: -6 in decimal)
+     ```
+
+5. **Left Shift (`<<`)**:
+   - **Description**: Shifts bits to the left, filling with zeros.
+   - **Example**:
+     ```javascript
+     const a = 5;  // 0101 in binary
+     const result = a << 1;  // 1010 in binary (10 in decimal)
+     ```
+
+6. **Right Shift (`>>`)**:
+   - **Description**: Shifts bits to the right, preserving the sign bit.
+   - **Example**:
+     ```javascript
+     const a = 5;  // 0101 in binary
+     const result = a >> 1;  // 0010 in binary (2 in decimal)
+     ```
+
+7. **Unsigned Right Shift (`>>>`)**:
+   - **Description**: Shifts bits to the right, filling with zeros (ignores the sign bit).
+   - **Example**:
+     ```javascript
+     const a = -5; // 1111111111111111111111111111011 in binary (32-bit)
+     const result = a >>> 1; // 0111111111111111111111111111101 in binary (2147483645 in decimal)
+     ```
+
+### Common Bit Manipulation Techniques
+
+1. **Check if a Number is Even or Odd**:
+   - **Description**: Use bitwise AND with `1`.
+   - **Example**:
+     ```javascript
+     const isOdd = (num) => (num & 1) === 1;
+     const isEven = (num) => (num & 1) === 0;
+     ```
+
+2. **Toggle a Bit**:
+   - **Description**: Use XOR with `1` to flip the bit.
+   - **Example**:
+     ```javascript
+     const toggleBit = (num, bitPosition) => num ^ (1 << bitPosition);
+     ```
+
+3. **Set a Bit**:
+   - **Description**: Use OR with `1` shifted to the bit position.
+   - **Example**:
+     ```javascript
+     const setBit = (num, bitPosition) => num | (1 << bitPosition);
+     ```
+
+4. **Clear a Bit**:
+   - **Description**: Use AND with the negation of `1` shifted to the bit position.
+   - **Example**:
+     ```javascript
+     const clearBit = (num, bitPosition) => num & ~(1 << bitPosition);
+     ```
+
+5. **Count Number of Set Bits (Hamming Weight)**:
+   - **Description**: Count the number of `1`s in the binary representation.
+   - **Example**:
+     ```javascript
+     const countSetBits = (num) => {
+       let count = 0;
+       while (num > 0) {
+         count += num & 1;
+         num >>= 1;
+       }
+       return count;
+     };
+     ```
+
+6. **Brian Kernighan’s Algorithm**:
+   - **Description**: Efficiently counts the number of set bits in an integer. It repeatedly clears the least significant set bit and counts the number of operations.
+   - **Example**:
+     ```javascript
+     const countSetBits = (num) => {
+       let count = 0;
+       while (num) {
+         num &= (num - 1);  // Clear the least significant bit set
+         count++;
+       }
+       return count;
+     };
+     ```
+
+7. **Find the Rightmost Set Bit**:
+   - **Description**: Use `num & -num`.
+   - **Example**:
+     ```javascript
+     const rightmostSetBit = (num) => num & -num;
+     ```
+
+8. **Find the Position of the Rightmost Set Bit**:
+   - **Description**: Use `Math.log2(num & -num)`.
+   - **Example**:
+     ```javascript
+     const rightmostSetBitPosition = (num) => Math.log2(num & -num);
+     ```
+
+9. **Swap Two Numbers Without a Temporary Variable**:
+   - **Description**: Use XOR to swap values.
+   - **Example**:
+     ```javascript
+     const swap = (a, b) => {
+       a ^= b;
+       b ^= a;
+       a ^= b;
+     };
+     ```
+
+### Use Cases
+
+- **Data Compression**: Efficiently store and manipulate data using bitwise operations.
+- **Cryptography**: Implement cryptographic algorithms and protocols.
+- **Network Protocols**: Handle and process network data at the bit level.
+- **Performance Optimization**: Use bit manipulation for performance-critical code.
+
+### Conclusion
+
+Bit manipulation is a powerful tool in programming that allows for efficient data processing and optimization. Understanding these basic bitwise operations and techniques can help you solve various problems more effectively.

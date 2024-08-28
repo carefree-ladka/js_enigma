@@ -1,0 +1,48 @@
+# Two Pointers Technique
+
+The **Two Pointers** technique is a popular algorithmic approach used to solve problems involving arrays or lists. It involves using two pointers to traverse the data structure and solve problems efficiently.
+
+## Overview
+
+1. **Initialization**:
+   - Set two pointers at specific positions in the data structure, typically at the beginning and end.
+
+2. **Traversal**:
+   - Move the pointers towards each other based on certain conditions.
+   - Perform operations or checks as needed when pointers meet or cross each other.
+
+3. **Termination**:
+   - Continue until the pointers meet or cross, or until a specific condition is satisfied.
+
+## Example Problems
+
+### 1. Finding a Pair with a Given Sum
+
+**Problem**: Given a sorted array, determine if there exists a pair of elements that sum up to a specific target value.
+
+**Solution**: Use two pointers, one starting at the beginning and the other at the end of the array. Adjust the pointers based on the sum of the elements they point to.
+
+```javascript
+function findPairWithSum(arr, target) {
+  let left = 0;
+  let right = arr.length - 1;
+
+  while (left < right) {
+    const sum = arr[left] + arr[right];
+    if (sum === target) {
+      return [arr[left], arr[right]];
+    } else if (sum < target) {
+      left++;
+    } else {
+      right--;
+    }
+  }
+
+  return null; // No pair found
+}
+
+// Example usage
+const arr = [1, 2, 3, 4, 5, 6, 7, 8];
+const target = 10;
+console.log(findPairWithSum(arr, target)); // Output: [2, 8]
+```

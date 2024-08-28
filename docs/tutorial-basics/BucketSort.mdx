@@ -1,0 +1,59 @@
+---
+title: Bucket Sort
+description: A detailed guide to understanding and implementing Bucket Sort.
+---
+
+import CodeBlock from '@theme/CodeBlock';
+
+# Bucket Sort
+
+**Bucket Sort** is a sorting algorithm that distributes elements into a number of buckets, sorts each bucket individually, and then concatenates the buckets to get the final sorted array. It is particularly useful for sorting uniformly distributed data or data with a known range.
+
+## How Bucket Sort Works
+
+Bucket Sort is a comparison-based sorting algorithm that is efficient when the input is uniformly distributed over a range. It works by dividing the range of possible values into a fixed number of buckets, sorting each bucket, and then concatenating the sorted buckets.
+
+### Algorithm Steps
+
+1. **Create Buckets:** Divide the input array into a fixed number of buckets.
+2. **Distribute Elements:** Distribute the elements of the input array into the appropriate buckets.
+3. **Sort Buckets:** Sort each bucket individually. This can be done using a different sorting algorithm (e.g., Insertion Sort).
+4. **Concatenate Buckets:** Merge the sorted buckets to get the final sorted array.
+
+### Pseudocode
+
+Here’s the pseudocode for Bucket Sort:
+
+
+```Javascript
+function bucketSort(arr, bucketSize = 5) {
+  if (arr.length === 0) return arr;
+
+  // Step 1: Find the minimum and maximum values in the array
+  const minValue = Math.min(...arr);
+  const maxValue = Math.max(...arr);
+
+  // Step 2: Calculate the number of buckets
+  const bucketCount = Math.floor((maxValue - minValue) / bucketSize) + 1;
+  const buckets = Array.from({ length: bucketCount }, () => []);
+
+  // Step 3: Distribute elements into buckets
+  for (let i = 0; i < arr.length; i++) {
+    const bucketIndex = Math.floor((arr[i] - minValue) / bucketSize);
+    buckets[bucketIndex].push(arr[i]);
+  }
+
+  // Step 4: Sort each bucket and concatenate the results
+  arr.length = 0;
+  for (let i = 0; i < buckets.length; i++) {
+    buckets[i].sort((a, b) => a - b); // Sort individual buckets
+    arr.push(...buckets[i]); // Concatenate sorted buckets
+  }
+
+  return arr;
+}
+
+// Example usage
+const arr = [29, 25, 3, 49, 9, 37, 21, 43];
+console.log(bucketSort(arr)); // Output: [3, 9, 21, 25, 29, 37, 43, 49]
+```

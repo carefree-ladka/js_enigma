@@ -1,0 +1,120 @@
+---
+title: Depth-First Search (DFS) for Trees
+---
+
+## Depth-First Search (DFS) for Trees
+
+Depth-First Search (DFS) is an algorithm used to traverse or search through tree or graph structures. It explores as far as possible along each branch before backtracking. DFS is useful for problems where you need to explore all possible paths or need to visit nodes in a specific order.
+
+### Overview
+
+DFS starts from the root (or any arbitrary node in a graph) and explores as far as possible along each branch before backtracking. It can be implemented using recursion or a stack. DFS is useful for tasks such as searching paths, topological sorting, and solving puzzles.
+
+### Algorithm Steps
+
+1. **Initialize**: Start at the root node and mark it as visited.
+2. **Explore**: Recursively or iteratively visit all unvisited child nodes (or neighbors) of the current node.
+3. **Backtrack**: Once all nodes at the current branch have been explored, backtrack to explore other branches.
+
+### Example Implementation
+
+**Code Example**:
+
+```javascript
+//TreeNode
+class TreeNode {
+  constructor(val) {
+    this.val = val;   //Node value
+    this.left = null; // Left node
+    this.right = null; //Right node
+  }
+}
+```
+
+
+```JavaScript
+/**
+ * Perform DFS traversal on a tree using Preorder (Root, Left, Right).
+ * @param {TreeNode} root - The root of the tree.
+ * @return {number[]} - The values of the nodes in DFS order.
+ */
+const dfsPreorder = (root) => {
+  const result = [];
+  
+  const traverse = (node) => {
+    if (!node) return;
+    result.push(node.val); // Process the node
+    traverse(node.left);  // Visit left subtree
+    traverse(node.right); // Visit right subtree
+  };
+  
+  traverse(root);
+  return result;
+};
+```
+
+```JavaScript
+/**
+ * Perform DFS traversal on a tree using Inorder (Left, Root, Right).
+ * @param {TreeNode} root - The root of the tree.
+ * @return {number[]} - The values of the nodes in DFS Inorder order.
+ */
+const dfsInorder = (root) => {
+  const result = [];
+  
+  const traverse = (node) => {
+    if (!node) return;
+    traverse(node.left);  // Visit left subtree
+    result.push(node.val); // Process the node
+    traverse(node.right); // Visit right subtree
+  };
+  
+  traverse(root);
+  return result;
+};
+```
+
+
+```JavaScript
+
+/**
+ * Perform DFS traversal on a tree using Postorder (Left, Right, Root).
+ * @param {TreeNode} root - The root of the tree.
+ * @return {number[]} - The values of the nodes in DFS Postorder order.
+ */
+const dfsPostorder = (root) => {
+  const result = [];
+  
+  const traverse = (node) => {
+    if (!node) return;
+    traverse(node.left);  // Visit left subtree
+    traverse(node.right); // Visit right subtree
+    result.push(node.val); // Process the node
+  };
+  
+  traverse(root);
+  return result;
+};
+```
+
+```JavaScript
+const root = new TreeNode(1);
+root.left = new TreeNode(2);
+root.right = new TreeNode(3);
+root.left.left = new TreeNode(4);
+root.left.right = new TreeNode(5);
+root.right.left = new TreeNode(6);
+root.right.right = new TreeNode(7);
+
+/* 
+                     1
+                    / \
+                   2   3
+                  / \ / \
+                 4  5 6  7
+*/
+
+console.log(dfsPreorder(root));  // Output: [1, 2, 4, 5, 3, 6, 7]
+console.log(dfsInorder(root));   // Output: [4, 2, 5, 1, 6, 3, 7]
+console.log(dfsPostorder(root)); // Output: [4, 5, 2, 6, 7, 3, 1]
+```

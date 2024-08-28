@@ -1,0 +1,79 @@
+---
+title: Topological Sort Tutorial
+description: A comprehensive guide to Topological Sort with code examples in JavaScript.
+---
+
+# Topological Sort Tutorial
+
+## Introduction
+
+Topological Sort is an algorithm used to order the vertices of a Directed Acyclic Graph (DAG) in a linear sequence. In this sequence, for every directed edge \( uv \) from vertex \( u \) to vertex \( v \), \( u \) comes before \( v \). This sorting is useful in scenarios where you need to schedule tasks or resolve dependencies.
+
+## Key Concepts
+
+1. **Directed Acyclic Graph (DAG)**: A graph with directed edges and no cycles.
+2. **Topological Order**: A linear ordering of vertices such that for every directed edge \( uv \), vertex \( u \) comes before vertex \( v \).
+
+## Algorithms for Topological Sort
+
+### 1. Kahn's Algorithm
+
+Kahn's Algorithm uses the concept of in-degrees (number of incoming edges) to determine the order of vertices. It is suitable for finding a topological sort using Breadth-First Search (BFS).
+
+### 2. Depth-First Search (DFS) Based Algorithm
+
+The DFS-based algorithm uses a stack to store the vertices in the topological order. It is suitable for finding a topological sort using Depth-First Search (DFS).
+
+## Kahn's Algorithm Implementation
+
+Here’s a JavaScript implementation of Kahn’s Algorithm for Topological Sort:
+
+```javascript
+function topologicalSortKahn(graph) {
+  const inDegree = new Array(graph.length).fill(0);
+  const queue = [];
+  const result = [];
+
+  // Compute the in-degrees of all vertices
+  for (let u = 0; u < graph.length; u++) {
+    for (const v of graph[u]) {
+      inDegree[v]++;
+    }
+  }
+
+  // Add vertices with in-degree 0 to the queue
+  for (let i = 0; i < inDegree.length; i++) {
+    if (inDegree[i] === 0) {
+      queue.push(i);
+    }
+  }
+
+  // Process the vertices in the queue
+  while (queue.length > 0) {
+    const u = queue.shift();
+    result.push(u);
+
+    for (const v of graph[u]) {
+      inDegree[v]--;
+      if (inDegree[v] === 0) {
+        queue.push(v);
+      }
+    }
+  }
+
+  // Check for cycles (if result length != graph length)
+  if (result.length !== graph.length) {
+    throw new Error('The graph contains a cycle');
+  }
+
+  return result;
+}
+
+// Example Usage
+const graph = [
+  [1, 2], // 0 -> 1, 0 -> 2
+  [2],    // 1 -> 2
+  []      // 2
+];
+
+console.log(topologicalSortKahn(graph)); // Output: [0, 1, 2] or [0, 2, 1]

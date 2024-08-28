@@ -1,0 +1,70 @@
+---
+title: In-Place Reversal of a Linked List
+---
+
+## In-Place Reversal of a Linked List
+
+Reversing a linked list in-place involves reversing the direction of the pointers in the list without using additional data structures. This technique is useful for operations requiring efficient space usage and is commonly used in various linked list problems.
+
+### Concept
+
+In an in-place reversal, each node's `next` pointer is updated to point to its previous node. This process is performed iteratively or recursively.
+
+### Iterative Approach
+
+The iterative approach involves three pointers: `prev`, `current`, and `next`. By iterating through the list and adjusting the pointers, the list can be reversed.
+
+**Code Example**:
+
+```javascript
+class ListNode {
+  constructor(value = 0, next = null) {
+    this.value = value;
+    this.next = next;
+  }
+}
+
+/**
+ * Reverse a linked list in-place iteratively.
+ * @param {ListNode} head - The head of the linked list.
+ * @return {ListNode} - The new head of the reversed linked list.
+ */
+const reverseListIterative = (head) => {
+  let prev = null;
+  let current = head;
+
+  while (current) {
+    const next = current.next; // Save next node
+    current.next = prev;       // Reverse the pointer
+    prev = current;            // Move prev to current node
+    current = next;            // Move to next node
+  }
+
+  return prev; // New head of the reversed list
+};
+```
+
+### Recursive Approach
+
+```Javascript
+/**
+ * Reverse a linked list in-place recursively.
+ * @param {ListNode} head - The head of the linked list.
+ * @return {ListNode} - The new head of the reversed linked list.
+ */
+const reverseListRecursive = (head) => {
+  // Base case: empty list or single node
+  if (!head || !head.next) {
+    return head;
+  }
+
+  // Recursively reverse the rest of the list
+  const newHead = reverseListRecursive(head.next);
+
+  // Update pointers
+  head.next.next = head;
+  head.next = null;
+
+  return newHead;
+};
+```

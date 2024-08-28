@@ -1,0 +1,145 @@
+---
+title: Morris Traversal for Binary Trees
+---
+
+## Morris Traversal
+
+Morris Traversal is a tree traversal algorithm that does not use any additional space for storing the traversal result, unlike other traversal methods that typically use stacks or recursion. It achieves this by temporarily modifying the tree structure.
+
+### Types of Morris Traversal
+
+1. **Inorder Traversal**
+2. **Preorder Traversal**
+3. **Postorder Traversal**
+
+### Code Implementation
+
+Here's a detailed explanation of each traversal method using Morris Traversal.
+
+#### TreeNode Class
+
+First, let's define a simple `TreeNode` class to represent nodes in the binary tree:
+
+```javascript
+class TreeNode {
+  constructor(val) {
+    this.val = val;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+```
+
+
+```JavaScript
+//In the context of Morris Traversal and binary tree traversal, the term "predecessor" refers to a specific node related to the current node being processed. 
+//Its role varies depending on the type of traversal being used
+const findPredecessor = (root) => {
+  // Start with the left child of the root node
+  let node = root.left;
+  // Traverse to the rightmost node of the left subtree
+  // This rightmost node is the predecessor in Morris Traversal
+  while (node.right && node.right !== root) {
+    node = node.right;
+  }
+  // Return the rightmost node (predecessor) or the node where the cycle should be created
+  return node;
+}
+```
+
+
+### Inorder Traversal
+
+```JavaScript
+const inorderTraversal = (root) => {
+  let node = root;
+  const result = [];
+  while (node) {
+    if (!node.left) {
+      result.push(node.val);
+      node = node.right;
+    } else {
+      const predecessor = findPredecessor(node);
+      if (predecessor.right === node) {
+        // We have a cycle
+        predecessor.right = null; // Break the cycle
+        result.push(node.val);
+        node = node.right;
+      } else {
+        predecessor.right = node; // Create a cycle
+        node = node.left;
+      }
+    }
+  }
+  return result;
+}
+
+```
+
+### Preorder Traversal
+
+```JavaScript
+const preorderTraversal = (root) => {
+  let node = root;
+  const result = [];
+  while (node) {
+    if (!node.left) {
+      result.push(node.val);  // Visit the node
+      node = node.right;
+    } else {
+      const predecessor = findPredecessor(node);
+      if (predecessor.right === node) {
+        // We have a cycle
+        predecessor.right = null; // Break the cycle
+        node = node.right;
+      } else {
+        result.push(node.val); // Visit the node
+        predecessor.right = node; // Create a cycle
+        node = node.left;
+      }
+    }
+  }
+  return result;
+}
+
+```
+
+### Postorder Traversal
+
+```JavaScript
+const postorderTraversal = (root) => {
+  const result = [];  // Array to store the result of the traversal
+  let current = root; // Start with the root node
+
+  // Iterate until all nodes are processed
+  while (current) {
+    // If there is no right child, process the current node and move to the left child
+    if (!current.right) {
+      result.push(current.val); // Visit the current node
+      current = current.left;   // Move to the left child
+    } else {
+      // Find the leftmost node in the right subtree (predecessor)
+      let successor = current.right;
+      while (successor.left && successor.left !== current) {
+        successor = successor.left;
+      }
+      
+      // If the predecessor's left pointer is null, set it to the current node
+      if (!successor.left) {
+        result.push(current.val); // Visit the current node
+        successor.left = current; // Create a temporary link
+        current = current.right;  // Move to the right child
+      } else {
+        // If the predecessor's left pointer points to the current node, remove the temporary link
+        successor.left = null; // Remove the temporary link
+        current = current.left; // Move to the left child
+      }
+    }
+  }
+  
+  // Reverse the result array to get the correct postorder sequence
+  return result.reverse();
+}
+
+```

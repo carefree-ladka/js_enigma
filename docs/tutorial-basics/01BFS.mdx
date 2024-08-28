@@ -1,0 +1,63 @@
+---
+title: 0-1 BFS Algorithm
+---
+
+## 0-1 BFS Algorithm
+
+0-1 BFS is a specialized version of the Breadth-First Search (BFS) algorithm designed to handle graphs where edge weights are either 0 or 1. It efficiently finds the shortest path in such graphs by leveraging a double-ended queue (deque) to maintain a more nuanced approach to edge weights.
+
+### Concept
+
+In 0-1 BFS:
+- **Edge Weights**: The edge weights are either 0 or 1.
+- **Data Structure**: A double-ended queue (deque) is used to optimize the traversal. Nodes connected by an edge with weight 0 are added to the front of the deque, and nodes connected by an edge with weight 1 are added to the back.
+- **Objective**: To find the shortest path from a source node to all other nodes in the graph.
+
+### Algorithm Steps
+
+1. **Initialize**: Start by initializing the distance for each node as infinity, except for the source node which is set to 0. Use a deque to manage the nodes to be processed.
+2. **Process Nodes**: Dequeue nodes and update their neighbors based on edge weights.
+   - For an edge with weight 0, update the neighbor’s distance and add it to the front of the deque.
+   - For an edge with weight 1, update the neighbor’s distance and add it to the back of the deque.
+3. **Continue**: Repeat the process until all nodes are processed.
+
+### Code Example
+
+**JavaScript Implementation**:
+
+```javascript
+const { Deque } = require('collections/deque');
+
+/**
+ * Compute the shortest path distances from the source node using 0-1 BFS.
+ * @param {number[][]} graph - Adjacency list representation of the graph with edge weights 0 or 1.
+ * @param {number} source - The source node.
+ * @return {number[]} - Array of shortest path distances from the source.
+ */
+const zeroOneBFS = (graph, source) => {
+  const n = graph.length;
+  const distances = Array(n).fill(Infinity);
+  const deque = new Deque();
+
+  distances[source] = 0;
+  deque.pushFront(source);
+
+  while (deque.length > 0) {
+    const node = deque.shift();
+    
+    for (const [neighbor, weight] of graph[node]) {
+      const newDist = distances[node] + weight;
+      if (newDist < distances[neighbor]) {
+        distances[neighbor] = newDist;
+        if (weight === 0) {
+          deque.pushFront(neighbor);
+        } else {
+          deque.pushBack(neighbor);
+        }
+      }
+    }
+  }
+
+  return distances;
+};
+```

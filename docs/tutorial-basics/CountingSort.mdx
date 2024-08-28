@@ -1,0 +1,63 @@
+---
+title: Counting Sort
+description: A detailed guide to understanding and implementing Counting Sort.
+---
+
+# Counting Sort
+
+**Counting Sort** is an integer sorting algorithm that is particularly efficient when the range of input values (i.e., the range of possible values) is known and relatively small. It works by counting the occurrences of each unique value and then using these counts to determine the positions of each value in the sorted output.
+
+## How Counting Sort Works
+
+Counting Sort is a non-comparison-based sorting algorithm that operates in `O(n + k)` time complexity, where `n` is the number of elements in the input array and `k` is the range of the input values. It is useful for sorting integers or categorical data.
+
+### Algorithm Steps
+
+1. **Find the Range:** Determine the maximum and minimum values in the input array.
+2. **Create a Count Array:** Create an array `count` where the index represents the value and the value at that index represents the count of occurrences.
+3. **Accumulate Counts:** Modify the `count` array such that each element at index `i` contains the sum of counts up to index `i`.
+4. **Build the Output Array:** Use the accumulated counts to place each element in its correct position in the output array.
+
+### Pseudocode
+
+Here’s the pseudocode for Counting Sort:
+
+
+```Javascript
+function countingSort(arr) {
+  if (arr.length === 0) return arr;
+
+  const max = Math.max(...arr);
+  const min = Math.min(...arr);
+  const range = max - min + 1;
+
+  const count = new Array(range).fill(0);
+  const output = new Array(arr.length);
+
+  // Step 1: Populate the count array
+  for (let i = 0; i < arr.length; i++) {
+    count[arr[i] - min]++;
+  }
+
+  // Step 2: Modify the count array to store the cumulative sum
+  for (let i = 1; i < count.length; i++) {
+    count[i] += count[i - 1];
+  }
+
+  // Step 3: Build the output array
+  for (let i = arr.length - 1; i >= 0; i--) {
+    output[--count[arr[i] - min]] = arr[i];
+  }
+
+  // Step 4: Copy the sorted elements back to the original array
+  for (let i = 0; i < arr.length; i++) {
+    arr[i] = output[i];
+  }
+
+  return arr;
+}
+
+// Example usage
+const arr = [4, 2, 2, 8, 3, 3, 1];
+console.log(countingSort(arr)); // Output: [1, 2, 2, 3, 3, 4, 8]
+```

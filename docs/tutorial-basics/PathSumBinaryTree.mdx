@@ -1,0 +1,76 @@
+---
+title: Path Sum (Binary Tree)
+---
+
+## Path Sum (Binary Tree)
+
+The "Path Sum" problem involves checking if there exists a path from the root node to any leaf node in a binary tree where the sum of the values along the path equals a given target sum.
+
+### Problem Description
+
+Given a binary tree and a target sum, determine if there is a path from the root to a leaf such that the sum of the node values along the path equals the target sum.
+
+### Definition
+
+- **Binary Tree**: A tree structure where each node has at most two children (left and right).
+- **Path**: A sequence of nodes starting from the root to a leaf node.
+- **Leaf Node**: A node with no children.
+
+### Example
+
+**Example 1:**
+
+```JavaScript
+       5
+      / \
+     4   8
+    /   / \
+   11  13  4
+  /  \      \
+ 7    2      1
+```
+- **Target Sum**: 22
+- **Path**: [5, 4, 11, 2]
+- **Output**: `true` (The path sum 5 + 4 + 11 + 2 = 22)
+
+**Example 2:**
+```JavaScript
+
+   1
+  / \
+ 2   3
+```
+- **Target Sum**: 5
+- **Path**: No path adds up to 5.
+- **Output**: `false`
+
+### Algorithm
+
+1. **Base Case**: If the current node is `null`, return `false`.
+2. **Leaf Node Check**: If the current node is a leaf node, check if its value equals the remaining target sum.
+3. **Recursive Case**: Recursively check the left and right subtrees, subtracting the current node's value from the target sum.
+
+### Code Example
+
+**JavaScript Implementation**:
+
+```javascript
+/**
+ * Check if there is a path from root to leaf with the given sum.
+ * @param {TreeNode} root - The root node of the binary tree.
+ * @param {number} targetSum - The target sum to check for.
+ * @return {boolean} - True if such a path exists, false otherwise.
+ */
+const hasPathSum = (root, targetSum) => {
+  if (!root) return false;
+
+  // If it's a leaf node, check if the target sum matches the node's value
+  if (!root.left && !root.right) {
+    return root.val === targetSum;
+  }
+
+  // Recursively check the left and right subtrees with the reduced target sum
+  const newTargetSum = targetSum - root.val;
+  return hasPathSum(root.left, newTargetSum) || hasPathSum(root.right, newTargetSum);
+};
+```
