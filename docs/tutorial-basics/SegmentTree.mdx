@@ -93,6 +93,129 @@ segTree.update(2, 6);
 console.log(segTree.query(1, 4)); // Output: 16
 ```
 
+## Segment Tree on 2D Matrix
+
+Given a 2D matrix, we want to perform two types of operations efficiently:
+
+1. **Update**: Change the value of a specific element in the matrix.
+2. **Range Query**: Find the sum of elements in a submatrix defined by its top-left and bottom-right corners.
+
+## Segment Tree Structure
+
+The 2D Segment Tree is a grid of Segment Trees, where each row has its own 1D Segment Tree to handle column operations. The main tree structure handles row operations.
+
+## Implementation
+
+Let's see how to implement a Segment Tree for a 2D grid in JavaScript.
+
+```Javascript
+class SegmentTree2D {
+  constructor(matrix) {
+    this.rows = matrix.length;
+    this.cols = matrix[0].length;
+    this.tree = Array.from({ length: 2 * this.rows }, () => Array(2 * this.cols).fill(0));
+    this.build(matrix);
+  }
+
+  build = (matrix) => {
+    // Initialize leaves with the matrix elements
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.cols; j++) {
+        this.tree[this.rows + i][this.cols + j] = matrix[i][j];
+      }
+    }
+
+    // Build tree for each row
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = this.cols - 1; j > 0; j--) {
+        this.tree[this.rows + i][j] = this.tree[this.rows + i][2 * j] + this.tree[this.rows + i][2 * j + 1];
+      }
+    }
+
+    // Build tree for the columns
+    for (let i = this.rows - 1; i > 0; i--) {
+      for (let j = 0; j < 2 * this.cols; j++) {
+        this.tree[i][j] = this.tree[2 * i][j] + this.tree[2 * i + 1][j];
+      }
+    }
+  }
+
+  update = (row, col, value) => {
+    let r = row + this.rows;
+    let c = col + this.cols;
+    this.tree[r][c] = value;
+
+    // Update the row segment tree
+    while (c > 1) {
+      c = Math.floor(c / 2);
+      this.tree[r][c] = this.tree[r][2 * c] + this.tree[r][2 * c + 1];
+    }
+
+    // Update the column segment tree
+    while (r > 1) {
+      r = Math.floor(r / 2);
+      c = col + this.cols;
+      while (c > 0) {
+        this.tree[r][c] = this.tree[2 * r][c] + this.tree[2 * r + 1][c];
+        c = Math.floor(c / 2);
+      }
+    }
+  }
+
+  query(row1, col1, row2, col2) {
+    let sum = 0;
+
+    // Adjust row range to include all leaves
+    row1 += this.rows;
+    row2 += this.rows + 1;
+
+    while (row1 < row2) {
+      if (row1 % 2 === 1) {
+        sum += this.#queryRow(row1++, col1, col2);
+      }
+      if (row2 % 2 === 1) {
+        sum += this.#queryRow(--row2, col1, col2);
+      }
+      row1 = Math.floor(row1 / 2);
+      row2 = Math.floor(row2 / 2);
+    }
+
+    return sum;
+  }
+
+  #queryRow = (row, col1, col2) => {
+    let sum = 0;
+    col1 += this.cols;
+    col2 += this.cols + 1;
+
+    while (col1 < col2) {
+      if (col1 % 2 === 1) {
+        sum += this.tree[row][col1++];
+      }
+      if (col2 % 2 === 1) {
+        sum += this.tree[row][--col2];
+      }
+      col1 = Math.floor(col1 / 2);
+      col2 = Math.floor(col2 / 2);
+    }
+
+    return sum;
+  }
+}
+
+// Example usage:
+const matrix = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9]
+];
+
+const segTree2D = new SegmentTree2D(matrix);
+console.log(segTree2D.query(1, 1, 2, 2)); // Output: 28 (sum of submatrix [[5, 6], [8, 9]])
+segTree2D.update(2, 2, 10);
+console.log(segTree2D.query(1, 1, 2, 2)); // Output: 29 (sum of submatrix [[5, 6], [8, 10]])
+```
+
 # Range Queries Problems
 
 ### 1D Range Queries

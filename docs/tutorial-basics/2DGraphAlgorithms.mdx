@@ -73,6 +73,102 @@ dfs(grid, 0, 0, visited);
 
 ```
 
+# Depth-First Search (DFS) on a 3D Grid
+
+**Depth-First Search (DFS)** is a fundamental algorithm used to explore nodes and edges of a graph or grid. It can be extended to 3D grids to explore nodes in three dimensions. In a 3D grid, each cell can be thought of as a node, and there are six possible directions to move to adjacent nodes.
+
+## Problem Statement
+
+Given a 3D grid, where each cell represents a node, perform a Depth-First Search to explore all reachable nodes starting from a given source cell. The grid allows movement in six possible directions: left, right, up, down, forward, and backward.
+
+## 3D Grid Representation
+
+A 3D grid can be represented as a 3D array `grid[x][y][z]`, where:
+- `x` represents the row index,
+- `y` represents the column index,
+- `z` represents the depth index.
+
+The six possible moves from a cell `(x, y, z)` are:
+- **Left**: `(x - 1, y, z)`
+- **Right**: `(x + 1, y, z)`
+- **Up**: `(x, y - 1, z)`
+- **Down**: `(x, y + 1, z)`
+- **Forward**: `(x, y, z + 1)`
+- **Backward**: `(x, y, z - 1)`
+
+## Depth-First Search (DFS) Algorithm
+
+DFS explores as far as possible along a branch before backtracking. For a 3D grid, it involves:
+
+1. **Initialization**:
+   - Use a stack to keep track of cells to visit.
+   - Maintain a set or array to mark visited cells to avoid reprocessing.
+
+2. **Processing**:
+   - Push the starting cell onto the stack.
+   - While the stack is not empty, pop the top cell and process it.
+   - Push all valid and unvisited neighboring cells onto the stack.
+
+3. **Termination**:
+   - Continue until the stack is empty or a specific condition is met.
+
+### JavaScript Implementation
+
+```JavaScript
+function isValid(x, y, z, grid) {
+    return (
+        x >= 0 && x < grid.length &&
+        y >= 0 && y < grid[0].length &&
+        z >= 0 && z < grid[0][0].length
+    );
+}
+
+function dfs3D(grid, start) {
+    const directions = [
+        [-1, 0, 0], [1, 0, 0], // left, right
+        [0, -1, 0], [0, 1, 0], // up, down
+        [0, 0, -1], [0, 0, 1]  // backward, forward
+    ];
+
+    const [startX, startY, startZ] = start;
+    const stack = [[startX, startY, startZ]];
+    const visited = new Set();
+    visited.add(`${startX},${startY},${startZ}`);
+
+    while (stack.length > 0) {
+        const [x, y, z] = stack.pop();
+        console.log(`Visited cell: (${x}, ${y}, ${z})`); // Process the cell
+
+        for (const [dx, dy, dz] of directions) {
+            const nx = x + dx;
+            const ny = y + dy;
+            const nz = z + dz;
+
+            if (isValid(nx, ny, nz, grid) && !visited.has(`${nx},${ny},${nz}`)) {
+                visited.add(`${nx},${ny},${nz}`);
+                stack.push([nx, ny, nz]);
+            }
+        }
+    }
+}
+
+// Example usage:
+const grid = [
+    [
+        [[1, 2], [3, 4]],
+        [[5, 6], [7, 8]]
+    ],
+    [
+        [[9, 10], [11, 12]],
+        [[13, 14], [15, 16]]
+    ]
+];
+
+const start = [0, 0, 0];
+dfs3D(grid, start);
+```
+
+
 ## 2D Breadth-First Search (BFS)
 
 ```JavaScript
@@ -120,6 +216,102 @@ function bfs(grid, startRow, startCol) {
     }
   }
 }
+```
+
+
+# Breadth-First Search (BFS) on a 3D Grid
+
+**Breadth-First Search (BFS)** is an algorithm used to explore nodes in a graph or grid level by level. It is particularly useful for finding the shortest path in unweighted graphs or grids. For a 3D grid, BFS can explore nodes in three dimensions, considering all six possible directions.
+
+## Problem Statement
+
+Given a 3D grid, where each cell represents a node, perform a Breadth-First Search to explore all reachable nodes starting from a given source cell. The grid allows movement in six possible directions: left, right, up, down, forward, and backward.
+
+## 3D Grid Representation
+
+A 3D grid is represented as a 3D array `grid[x][y][z]`, where:
+- `x` is the row index,
+- `y` is the column index,
+- `z` is the depth index.
+
+The six possible moves from a cell `(x, y, z)` are:
+- **Left**: `(x - 1, y, z)`
+- **Right**: `(x + 1, y, z)`
+- **Up**: `(x, y - 1, z)`
+- **Down**: `(x, y + 1, z)`
+- **Forward**: `(x, y, z + 1)`
+- **Backward**: `(x, y, z - 1)`
+
+## Breadth-First Search (BFS) Algorithm
+
+BFS explores nodes level by level, starting from the source node. For a 3D grid:
+
+1. **Initialization**:
+   - Use a queue to keep track of cells to visit.
+   - Maintain a set or array to mark visited cells to avoid reprocessing.
+
+2. **Processing**:
+   - Dequeue the front cell and process it.
+   - Enqueue all valid and unvisited neighboring cells.
+
+3. **Termination**:
+   - Continue until the queue is empty or a specific condition is met.
+
+### JavaScript Implementation
+
+
+```JavaScript
+function isValid(x, y, z, grid) {
+    return (
+        x >= 0 && x < grid.length &&
+        y >= 0 && y < grid[0].length &&
+        z >= 0 && z < grid[0][0].length
+    );
+}
+
+function bfs3D(grid, start) {
+    const directions = [
+        [-1, 0, 0], [1, 0, 0], // left, right
+        [0, -1, 0], [0, 1, 0], // up, down
+        [0, 0, -1], [0, 0, 1]  // backward, forward
+    ];
+
+    const [startX, startY, startZ] = start;
+    const queue = [[startX, startY, startZ]];
+    const visited = new Set();
+    visited.add(`${startX},${startY},${startZ}`);
+
+    while (queue.length > 0) {
+        const [x, y, z] = queue.shift(); // Dequeue the front cell
+        console.log(`Visited cell: (${x}, ${y}, ${z})`); // Process the cell
+
+        for (const [dx, dy, dz] of directions) {
+            const nx = x + dx;
+            const ny = y + dy;
+            const nz = z + dz;
+
+            if (isValid(nx, ny, nz, grid) && !visited.has(`${nx},${ny},${nz}`)) {
+                visited.add(`${nx},${ny},${nz}`);
+                queue.push([nx, ny, nz]); // Enqueue the neighboring cell
+            }
+        }
+    }
+}
+
+// Example usage:
+const grid = [
+    [
+        [[1, 2], [3, 4]],
+        [[5, 6], [7, 8]]
+    ],
+    [
+        [[9, 10], [11, 12]],
+        [[13, 14], [15, 16]]
+    ]
+];
+
+const start = [0, 0, 0];
+bfs3D(grid, start);
 ```
 
 ## 2D Dijkstra (Shortest Path)
