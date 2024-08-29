@@ -20,7 +20,12 @@ Union-Find is particularly useful in scenarios involving network connectivity, K
 
 2. **Union**: This operation merges two subsets into a single subset. Union by rank (or size) is commonly used to keep the tree flat and efficient.
 
+
 ## Implementation
+
+1. **Array**: Use when indices are small, dense, and within a fixed range.
+2. **Map**: Use when indices are large, sparse, dynamic, non-numeric, or complex.
+
 
 Here’s a basic implementation of the Union-Find data structure in JavaScript:
 
@@ -70,4 +75,44 @@ uf.union(4, 5);
 console.log(uf.find(1)); // Output: 1 (root of the set containing 1)
 console.log(uf.find(3)); // Output: 1 (root of the set containing 3)
 console.log(uf.find(5)); // Output: 5 (root of the set containing 5)
+```
+
+# Using Map
+
+```JavaScript
+class DSU {
+  constructor() {
+    this.parent = new Map();
+    this.rank = new Map();
+  }
+
+  find(x) {
+    if (!this.parent.has(x)) {
+      this.parent.set(x, x); // Initialize parent to itself if not present
+    }
+    if (x !== this.parent.get(x)) {
+      this.parent.set(x, this.find(this.parent.get(x))); // Path compression
+    }
+    return this.parent.get(x); // Return the root parent
+  }
+
+  union(x, y) {
+    let rootX = this.find(x);
+    let rootY = this.find(y);
+
+    if (rootX !== rootY) {
+      let rankX = this.rank.get(rootX);
+      let rankY = this.rank.get(rootY);
+
+      if (rankX > rankY) {
+        this.parent.set(rootY, rootX);
+      } else if (rankX < rankY) {
+        this.parent.set(rootX, rootY);
+      } else {
+        this.parent.set(rootY, rootX);
+        this.rank.set(rootX, rankX + 1);
+      }
+    }
+  }
+}
 ```
